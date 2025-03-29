@@ -33,7 +33,7 @@ class UserCubit extends Cubit<UserState> {
     try {
       emit(UserLoading());
       final response = await api.post(
-        'https://food-api-omega.vercel.app/api/v1/user/signin',
+        'user/signin',
         data: {'email': signInEmail.text, 'password': signInPassword.text},
       );
       emit(UserSuccess());
