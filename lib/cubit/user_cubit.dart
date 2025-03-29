@@ -6,8 +6,10 @@ import 'package:mastering_flutter_api/cache/cache_helper.dart';
 import 'package:mastering_flutter_api/core/api/api_consumer.dart';
 import 'package:mastering_flutter_api/core/api/end_points.dart';
 import 'package:mastering_flutter_api/core/errors/exceptions.dart';
+import 'package:mastering_flutter_api/core/functions/upload_image_to_api.dart';
 import 'package:mastering_flutter_api/cubit/user_state.dart';
 import 'package:mastering_flutter_api/models/signin_model.dart';
+import 'package:mastering_flutter_api/models/signup_model.dart';
 
 class UserCubit extends Cubit<UserState> {
   UserCubit(this.api) : super(UserInitial());
@@ -39,6 +41,31 @@ class UserCubit extends Cubit<UserState> {
     emit(UploadProfilePic());
   }
 
+  //Sign up method
+  signUp() async {
+    try {
+      emit(SignUpLoading());
+      final response = await api.post(
+        EndPoints.signUp,
+        isFormData: true,
+        data: {
+          ApiKeys.name: signUpName.text,
+          ApiKeys.phone: signUpPhoneNumber.text,
+          ApiKeys.email: signUpEmail.text,
+          ApiKeys.password: signUpPassword.text,
+          ApiKeys.confirmPassword: confirmPassword.text,
+          ApiKeys.profilePic: await uploadImageToApi(profilePic!),
+          ApiKeys.location:
+              '{"name":"methalfa","address":"meet halfa","coordinates":[30.1572709,31.224779]}',
+        },
+      );
+      final signUpModel = SignUpModel.fromJson(response);
+      emit(SignUpSuccess(message: signUpModel.message));
+    } on ServerException catch (e) {
+      emit(SignUpError(errorMessage: e.errorModel.errorMessage));
+    }
+  }
+
   //Sign in method
   signIn() async {
     try {
@@ -46,7 +73,7 @@ class UserCubit extends Cubit<UserState> {
       final response = await api.post(
         EndPoints.signIn,
         data: {
-          ApiKeys.eamil: signInEmail.text,
+          ApiKeys.email: signInEmail.text,
           ApiKeys.password: signInPassword.text,
         },
       );
@@ -57,7 +84,7 @@ class UserCubit extends Cubit<UserState> {
 
       emit(SignInSuccess());
     } on ServerException catch (e) {
-      emit(SignInError(e.errorModel.errorMessage));
+      emit(SignInError(errorMessage: e.errorModel.errorMessage));
     }
   }
 }

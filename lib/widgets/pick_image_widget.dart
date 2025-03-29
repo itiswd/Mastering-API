@@ -46,12 +46,11 @@ class PickImageWidget extends StatelessWidget {
                                 onTap: () {
                                   ImagePicker()
                                       .pickImage(source: ImageSource.gallery)
-                                      .then((value) {
-                                        if (context.mounted) {
-                                          context.read<UserCubit>().profilePic =
-                                              value;
-                                        }
-                                      });
+                                      .then(
+                                        (value) => context
+                                            .read<UserCubit>()
+                                            .uploadProfilePic(value!),
+                                      );
                                 },
                                 child: const Icon(
                                   Icons.camera_alt_sharp,
