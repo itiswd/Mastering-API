@@ -6,6 +6,8 @@ final class SignInLoading extends UserState {}
 
 final class SignInSuccess extends UserState {}
 
+final class UploadProfilePic extends UserState {}
+
 final class SignInError extends UserState {
   final String errorMessage;
   SignInError(this.errorMessage);

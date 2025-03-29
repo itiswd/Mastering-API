@@ -33,6 +33,12 @@ class UserCubit extends Cubit<UserState> {
   //Sign up confirm password
   TextEditingController confirmPassword = TextEditingController();
   SignInModel? signInModel;
+  //Upload profile pic
+  Future<void> uploadProfilePic(XFile? image) async {
+    profilePic = image;
+    emit(UploadProfilePic());
+  }
+
   //Sign in method
   signIn() async {
     try {
