@@ -13,4 +13,5 @@ class ApiKeys {
   static const String password = 'password';
   static const String token = 'token';
   static const String id = 'id';
+  static const String message = 'message';
 }
