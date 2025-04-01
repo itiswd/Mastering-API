@@ -10,6 +10,7 @@ import 'package:mastering_flutter_api/core/functions/upload_image_to_api.dart';
 import 'package:mastering_flutter_api/cubit/user_state.dart';
 import 'package:mastering_flutter_api/models/signin_model.dart';
 import 'package:mastering_flutter_api/models/signup_model.dart';
+import 'package:mastering_flutter_api/models/user_model.dart';
 
 class UserCubit extends Cubit<UserState> {
   UserCubit(this.api) : super(UserInitial());
@@ -92,7 +93,12 @@ class UserCubit extends Cubit<UserState> {
   getUserData() async {
     try {
       emit(UserProfileLoading());
-      final response = await api.get(EndPoints.getUserProfileEndpoint(''));
+      final response = await api.get(
+        EndPoints.getUserProfileEndpoint(
+          CacheHelper().getData(key: ApiKeys.id),
+        ),
+      );
+      emit(UserProfileSuccess(userModel: UserModel.fromJson(response)));
     } on ServerException catch (e) {
       emit(UserProfileError(errorMessage: e.errorModel.errorMessage));
     }

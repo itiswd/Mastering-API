@@ -1,3 +1,5 @@
+import 'package:mastering_flutter_api/models/user_model.dart';
+
 class UserState {}
 
 final class UserInitial extends UserState {}
@@ -25,7 +27,10 @@ final class SignInError extends UserState {
 
 final class UserProfileLoading extends UserState {}
 
-final class UserProfileSuccess extends UserState {}
+final class UserProfileSuccess extends UserState {
+  final UserModel userModel;
+  UserProfileSuccess({required this.userModel});
+}
 
 final class UserProfileError extends UserState {
   final String errorMessage;
