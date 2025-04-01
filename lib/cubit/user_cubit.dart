@@ -87,4 +87,14 @@ class UserCubit extends Cubit<UserState> {
       emit(SignInError(errorMessage: e.errorModel.errorMessage));
     }
   }
+
+  //Get user data
+  getUserData() async {
+    try {
+      emit(UserProfileLoading());
+      final response = await api.get(EndPoints.getUserProfileEndpoint(''));
+    } on ServerException catch (e) {
+      emit(UserProfileError(errorMessage: e.errorModel.errorMessage));
+    }
+  }
 }

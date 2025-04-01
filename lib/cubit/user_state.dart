@@ -23,4 +23,13 @@ final class SignInError extends UserState {
   SignInError({required this.errorMessage});
 }
 
+final class UserProfileLoading extends UserState {}
+
+final class UserProfileSuccess extends UserState {}
+
+final class UserProfileError extends UserState {
+  final String errorMessage;
+  UserProfileError({required this.errorMessage});
+}
+
 final class UploadProfilePic extends UserState {}

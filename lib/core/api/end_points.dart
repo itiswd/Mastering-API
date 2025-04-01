@@ -4,6 +4,11 @@ class EndPoints {
   // Auth endpoints
   static const String signIn = 'user/signin';
   static const String signUp = 'user/signup';
+
+  // User endpoints
+  static String getUserProfileEndpoint(id) {
+    return 'user/get-user/$id';
+  }
 }
 
 class ApiKeys {
